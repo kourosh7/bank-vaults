@@ -1,47 +1,5 @@
 debug: true
 
-replicaCount: 2
-
-env:
-  VAULT_CLIENT_TIMEOUT: 60s
-secretsFailurePolicy: Ignore
-
-image:
-  repository: ghcr.io/banzaicloud/vault-secrets-webhook
-
-vaultEnv:
-  repository: ghcr.io/banzaicloud/vault-env
-
-metrics:
-  enabled: true
-  port: 8443
-  serviceMonitor:
-    enabled: true
-    scheme: https
-    additionalLabels:
-      prometheus: chimera
-    tlsConfig:
-      insecureSkipVerify: true
-
-rbac:
-  authDelegatorRole:
-    enabled: true
-
-serviceAccount:
-  create: true
-  name: "webhook-vault"
-
-# configMapMutation must be enabled for webhook to be able to mutate configMaps and replace vault secret path with real secrets
-configMapMutation: true
-
-resources:
-  requests:
-    memory: 256Mi
-    cpu: 250m
-  limits:
-    memory: 1Gi
-    cpu: 1
-
 certificate:
   generate: false
   useCertManager: true
